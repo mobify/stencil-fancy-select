@@ -1,0 +1,33 @@
+{
+  "name": "stencil-select",
+  "version": "0.0.0",
+  "description": "A styleable, accessible <select> component.",
+  "authors": [
+    "Mobify"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/mobify/stencil-select.git"
+  },
+  "keywords": [
+    "mobify",
+    "components",
+    "patterns"
+  ],
+  "license": "MIT",
+  "main": [
+    "src/_style.scss",
+    "src/template.dust",
+    "src/schema.js",
+    "src/ui.js"
+  ],
+  "ignore": [
+    ".editorconfig",
+    ".gitignore",
+    "package.json",
+    "Gruntfile.js",
+    "tests"
+  ],
+  "dependencies": {},
+  "devDependencies": {}
+}
