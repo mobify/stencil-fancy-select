@@ -1,0 +1,18 @@
+<div class="c-select">
+    {select}
+</div>
+
+{! OR, not clear from previous branch }
+<div class="c-select c--label">
+    <label class="c-select__label">{label}</label>
+    <span class="c-select__value"></span>
+    <select class="js-linked-element" data-linked-element=".{linkedClass}">
+        {#items}
+            {.}
+        {/items}
+    </select>
+    <div hidden>
+        {desktop}
+    </div>
+</div>
+{!}

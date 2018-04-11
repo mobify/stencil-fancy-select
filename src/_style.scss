@@ -1,0 +1,157 @@
+// Select
+// ===
+
+
+// Dependencies
+// ---
+
+@import 'vellum/dist/vellum';
+@import 'spline/dist/utilities/triangle';
+
+
+// Configurable Variables
+// ---
+//
+// 1. The same as default side paddings (but they're set in 1 variable)
+// 2. ($select__height - 20)/2 calculates vertical paddings
+
+$select__height: if(variable-exists(forms__element-height), $forms__element-height, 50px) !default;
+$select__v-space: if(variable-exists(v-space), $v-space, 0.5rem) !default;
+$select__h-space: if(variable-exists(h-space), $h-space, 1rem) !default;
+$select__padding: if(variable-exists(forms__element-padding), $forms__element-padding, ($select__height - 20)/2 50px ($select__height - 20)/2 15px) !default; // 2
+
+$select__border-color: if(variable-exists(border-color), $border-color, hsl(0, 0%, 10%)) !default;
+$select__border: if(variable-exists(border), $border, 1px solid $select__border-color) !default;
+$select__border-radius: if(variable-exists(forms__border-radius), $forms__border-radius, 0) !default;
+
+$select__background-color: if(variable-exists(forms__background-color), $forms__background-color, #fff) !default;
+$select__triangle-size: 7px !default;
+$select__triangle-position: 15px !default; // 1
+
+$select__font-family: if(variable-exists(forms__font-family), $forms__font-family, inherit) !default;
+$select__font-size: if(variable-exists(forms__font-size), $forms__font-size, inherit) !default;
+$select__line-height: 20px !default;
+
+
+// Select root
+// ---
+//
+// 1. Absolutely position select element and triangle relative to the parent .c-select
+
+.c-select {
+    position: relative; // 1
+
+    display: flex;
+    box-sizing: border-box;
+    max-width: 100%;
+    height: $select__height;
+    padding: $select__padding;
+    border: $select__border;
+
+    border-radius: $select__border-radius;
+    background: $select__background-color;
+
+    font-family: $select__font-family;
+    font-size: $select__font-size;
+
+    -webkit-user-select: none;
+
+    user-select: none;
+
+
+    // "Down" Triangle
+    // ---
+    //
+    // 1. Absolutely position select element and triangle relative to the parent .c-select
+    // 2. Vertical center the triangle
+
+    &::after {
+        @include triangle(
+            $type: 'triangle',
+            $direction: 'down',
+            $size: $select__triangle-size,
+            $color: $select__border-color
+        );
+
+        content: '';
+
+        position: absolute; // 1, 2
+        top: 0;
+        right: $select__triangle-position;
+        bottom: 0;
+
+        margin: auto; // 2
+    }
+
+
+    select {
+        position: absolute; // 1
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+        padding: $select__padding;
+        border: 0;
+
+        background: none;
+
+        -webkit-appearance: none;
+    }
+}
+
+
+
+// Nested elements <select>, <label> and <span>
+// that are refactored to be available for styling
+// ---
+//
+// 1. Align label together with select base line.
+//    Simple select uses paddings for vertical align,
+//    we should be consistent and not use flexbox here
+
+.c-select__nested-label {
+    display: block;
+    margin-right: $select__h-space;
+    margin-bottom: 0;
+
+    line-height: $select__line-height; // 1
+    text-overflow: ellipsis;
+}
+
+.c-select__nested-value {
+    display: block;
+    overflow: hidden;
+
+    line-height: $select__line-height; // 1
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.c-select__hidden-nested-select {
+    opacity: 0;
+}
+
+
+// Platform Fixes
+// ---
+
+// Fix for Firefox
+// Attribution: http://filamentgroup.github.io/select-css/
+//
+// 1. Hide the native select arrow by clipping it with overflow: hidden
+
+@-moz-document url-prefix() {
+    .c-select {
+        overflow: hidden; // 1
+
+        select {
+            width: calc(100% + 3em);
+
+            &:-moz-focusring {
+              color: transparent;
+              text-shadow: 0 0 0 #000;
+            }
+        }
+    }
+}
